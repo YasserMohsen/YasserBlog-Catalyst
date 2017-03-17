@@ -1,0 +1,40 @@
+<h1>POSTS</h1>
+
+[% FOREACH post IN posts -%]
+<div class="ui one cards">
+  <div class="ui card">
+    <div class="content">
+      <div class="header"><a href="[% c.uri_for(c.controller('post').action_for('index'),post.id) %]">[% post.title %]</a></div>
+      <div class="meta">[% post.postdate %]</div>
+      <div class="description">
+        [% post.content %]
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="right floated author">
+        by: [% post.userid.fname %] [% post.userid.lname %]
+      </div>
+    </div>
+  </div>
+</div>
+[% END -%]
+
+<div class="ui divider"></div>
+[% IF c.user.id -%]
+<form class="ui form" method="POST" action="posts/add">
+  <div class="field">
+    <label>Write a post:</label>
+  </div>
+  <div class="inline field">
+    <label>Title: </label>
+    <input type="text" name="title" placeholder="[% c.user.fname %]"/>
+  </div>
+  <div class="inline two fields">
+    <label>Content: </label>
+    <div class="field">
+      <textarea rows="2" name="content"></textarea>
+    </div>
+  </div>
+  <input type="submit" class="ui submit button" value="Post">
+</form>
+[% END -%]
