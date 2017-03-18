@@ -1,40 +1,69 @@
 <h1>POSTS</h1>
 
+[% IF c.flash.status_msg -%]
+    <div class="ui tiny pink message">
+        <i class="close icon"></i>
+        [% c.flash.status_msg %]
+    </div>
+[% END -%]
+
 [% FOREACH post IN posts -%]
-<div class="ui one cards">
-  <div class="ui card">
-    <div class="content">
-      <div class="header"><a href="[% c.uri_for(c.controller('post').action_for('index'),post.id) %]">[% post.title %]</a></div>
-      <div class="meta">[% post.postdate %]</div>
-      <div class="description">
-        [% post.content %]
+    <div class="ui one cards">
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><a href="[% c.uri_for(c.controller('post').action_for('index'),post.id) %]">[% post.title %]</a></div>
+          <div class="meta">[% post.postdate %]</div>
+          <div class="description">
+            [% post.content %]
+          </div>
+        </div>
+        <div class="extra content">
+          [% IF c.user.id == post.userid.id || c.user.role == 'admin' -%]
+          <span class="left floated">
+              <a href="[% c.uri_for(c.controller('posts').action_for('edit'),[post.id]) %]"><i class="write icon"></i>Edit </a>
+              <a href="[% c.uri_for(c.controller('posts').action_for('delete'),[post.id]) %]"><i class="trash outline icon"></i>Delete</a>
+          </span>
+          [% END -%]
+          <div class="right floated author">
+            by: [% post.userid.fname %] [% post.userid.lname %]
+          </div>
+        </div>
       </div>
     </div>
-    <div class="extra content">
-      <div class="right floated author">
-        by: [% post.userid.fname %] [% post.userid.lname %]
-      </div>
-    </div>
-  </div>
-</div>
 [% END -%]
 
 <div class="ui divider"></div>
+
 [% IF c.user.id -%]
-<form class="ui form" method="POST" action="posts/add">
-  <div class="field">
-    <label>Write a post:</label>
+  <div class="ui segment">
+    <form class="ui large form" method="POST" action="[% c.uri_for(c.controller('posts').action_for('add')) %]">
+      <div class="field">
+        <label>Write a post:</label>
+      </div>
+      <div class="field">
+        <label>Title: </label>
+        <input type="text" name="title" placeholder="[% c.user.fname %]"/>
+      </div>
+      <div class="field">
+        <label>Content: </label>
+        <textarea rows="2" name="content"></textarea>
+      </div>
+      <input type="submit" name="submit" value="Post" class="ui fluid large teal submit button"/>
+    </form>
   </div>
-  <div class="inline field">
-    <label>Title: </label>
-    <input type="text" name="title" placeholder="[% c.user.fname %]"/>
+[% ELSE -%]
+  <div class="ui blue message">
+    <a href="login" class="">Sign In</a> to write a post.
   </div>
-  <div class="inline two fields">
-    <label>Content: </label>
-    <div class="field">
-      <textarea rows="2" name="content"></textarea>
-    </div>
-  </div>
-  <input type="submit" class="ui submit button" value="Post">
-</form>
 [% END -%]
+
+<script type="text/javascript">
+    $('.message .close')
+    .on('click', function() {
+      $(this)
+        .closest('.message')
+        .transition('fade')
+      ;
+    })
+    ;
+</script>
