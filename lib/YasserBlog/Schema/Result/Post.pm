@@ -140,12 +140,12 @@ __PACKAGE__->belongs_to(
   "userid",
   "YasserBlog::Schema::Result::User",
   { id => "userid" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-17 15:01:07
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:CkiQ5pvMk31nDyuVZ0C4nQ
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-19 22:21:10
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kTGHwGHFUrnrOim+0ptKnw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

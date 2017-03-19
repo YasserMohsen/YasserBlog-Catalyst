@@ -125,7 +125,7 @@ __PACKAGE__->belongs_to(
   "postid",
   "YasserBlog::Schema::Result::Post",
   { id => "postid" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "RESTRICT" },
 );
 
 =head2 userid
@@ -140,12 +140,12 @@ __PACKAGE__->belongs_to(
   "userid",
   "YasserBlog::Schema::Result::User",
   { id => "userid" },
-  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-15 02:57:18
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:kLwlHLksAFByew3KMcaYTQ
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-19 22:21:10
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6MhodeAl4jsrl/0Pcii4ew
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
