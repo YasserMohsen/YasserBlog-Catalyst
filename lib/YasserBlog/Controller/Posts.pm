@@ -57,15 +57,23 @@ sub object :Chained('base') :PathPart('id'): CaptureArgs(1){
     my ( $self, $c, $id ) = @_;
     $c->stash(object => $c->stash->{resultset}->find($id));
     if (!$c->stash->{object}){
-          die;
-          $c->response->redirect($c->uri_for('/'));
-          return;
-    };
+          $c->detach("error");
+    }
+}
+sub error :Private{
+    my ( $self, $c ) = @_;
+    $c->response->redirect($c->uri_for('/'));
+}
+sub view :Chained('object') :PathPart('view') :Args(0){
+    my ( $self, $c ) = @_;
+    my $post = $c->stash->{object};
+    $c->stash(post => $post, template => 'posts/view.tt');
+    # $c->response->redirect($c->uri_for($c->controller('comments')->action_for('list'),[$post->id]));
 }
 sub delete :Chained('object') :PathPart('delete'): Args(0){
     my ( $self, $c ) = @_;
     my $post = $c->stash->{object};
-    if($post->userid->id == $c->user->id || $c->user->role == 'admin'){
+    if($c->user_exists && ($post->userid->id == $c->user->id || $c->user->role eq 'admin')){
         $c->stash->{object}->delete;
         $c->flash->{status_msg} = "Post deleted.";
     }
@@ -74,7 +82,7 @@ sub delete :Chained('object') :PathPart('delete'): Args(0){
 sub edit :Chained('object') :PathPart('edit'): Args(0){
     my ( $self, $c ) = @_;
     my $post = $c->stash->{object};
-    if($post->userid->id == $c->user->id  || $c->user->role == 'admin'){
+    if($c->user_exists && ($post->userid->id == $c->user->id  || $c->user->role eq 'admin')){
         $c->stash(edit_post => $c->uri_for($c->controller->action_for("do_edit"),[$post->id]));
         $c->stash(post => $post, template => 'posts/edit.tt');
     } else {
@@ -100,6 +108,7 @@ sub do_edit :Chained('object') :PathPart('do_edit') :Args(0){
         $c->response->redirect($c->uri_for($c->controller->action_for("edit"),[$post->id]));
     }
 }
+
 =encoding utf8
 
 =head1 AUTHOR

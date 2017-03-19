@@ -1,0 +1,68 @@
+<div class="ui one cards">
+  <div class="ui card">
+    <div class="content">
+      <div class="header"><a href="[% c.uri_for(c.controller('posts').action_for('view'),[post.id]) %]">[% post.title %]</a></div>
+      <div class="meta">[% post.postdate %]</div>
+      <div class="description">
+        [% post.content %]
+      </div>
+    </div>
+    <div class="extra content">
+      [% IF c.user.id == post.userid.id || c.user.role == 'admin' -%]
+      <span class="left floated">
+          <a href="[% c.uri_for(c.controller('posts').action_for('edit'),[post.id]) %]"><i class="write icon"></i>Edit </a>
+          <a href="[% c.uri_for(c.controller('posts').action_for('delete'),[post.id]) %]"><i class="trash outline icon"></i>Delete</a>
+      </span>
+      [% END -%]
+      <div class="right floated author">
+        by: [% post.userid.fname %] [% post.userid.lname %]
+      </div>
+    </div>
+  </div>
+</div>
+<h1>Comments: </h1>
+<div class="ui divider"></div>
+[% FOREACH comment IN post.comments -%]
+  <div class="ui grid">
+    <div class="four wide column">
+      <h3 class="ui green header">
+        [% comment.userid.username %]
+        <div class="sub header">[% comment.commentdate %]</div>
+      </h3>
+    </div>
+    <div class="nine wide column">
+      <h4>[% comment.content %]</h4>
+    </div>
+    [% IF c.user.id == comment.userid.id || c.user.role == 'admin' -%]
+    <div class="three wide column">
+        <a href="[% c.uri_for(c.controller('comments').action_for('edit'),[comment.id]) %]"><i class="write icon"></i>Edit </a>
+        <br/>
+        <a href="[% c.uri_for(c.controller('comments').action_for('delete'),[comment.id]) %]"><i class="trash outline icon"></i>Delete</a>
+    </div>
+    [% END -%]
+  </div>
+  <div class="ui divider"></div>
+[% END -%]
+
+[% IF c.flash.status_msg -%]
+    <div class="ui tiny pink message">
+        <i class="close icon"></i>
+        [% c.flash.status_msg %]
+    </div>
+[% END -%]
+
+[% IF c.user.id -%]
+  <div class="ui segment">
+    <form class="ui large form" method="POST" action="[% c.uri_for(c.controller('comments').action_for('add')) %]">
+      <div class="field">
+        <textarea rows="2" name="content" placeholder="Leave a comment"></textarea>
+      </div>
+      <input type="hidden" name="postid" value="[% post.id %]">
+      <input type="submit" name="submit" value="Comment" class="ui fluid large teal submit button"/>
+    </form>
+  </div>
+[% ELSE -%]
+  <div class="ui blue message">
+    <a href="login" class="">Sign In</a> to comment on the post.
+  </div>
+[% END -%]

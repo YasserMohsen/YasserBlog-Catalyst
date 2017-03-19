@@ -1,0 +1,15 @@
+<h2>Edit your comment:</h2>
+
+<form class="ui large form" method="POST" action="[% edit_comment %]">
+    [% IF c.flash.status_msg -%]
+    <div class="ui tiny pink message">
+        <i class="close icon"></i>
+        [% c.flash.status_msg %]
+    </div>
+    [% END -%]
+    <div class="field">
+        <label>Comment: </label>
+        <textarea name="content" id="newContent" cols="30" rows="6">[% comment.content %]</textarea>
+    </div>
+    <input type="submit" name="submit" value="Save" class="ui fluid large teal submit button"/>
+</form>

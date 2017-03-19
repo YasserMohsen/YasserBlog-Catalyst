@@ -54,8 +54,8 @@ sub start :Chained('base') :PathPart("start") :Args(0) {
                 if($userUsername == 1){
                     $c->flash->{error} = "This username is already exist!";
                 } else {
-                    if($password != $repassword){
-                        $c->flash->{error} = "Password fields are not matching each other!"
+                    if($password ne $repassword){
+                        $c->flash->{error} = "Password fields are not matching each other!";
                     } else {
                         my $user = $c->model('DB::User')->create({
                                               fname => $fname,

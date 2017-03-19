@@ -11,7 +11,7 @@
     <div class="ui one cards">
       <div class="ui card">
         <div class="content">
-          <div class="header"><a href="[% c.uri_for(c.controller('post').action_for('index'),post.id) %]">[% post.title %]</a></div>
+          <div class="header"><a href="[% c.uri_for(c.controller('posts').action_for('view'),[post.id]) %]">[% post.title %]</a></div>
           <div class="meta">[% post.postdate %]</div>
           <div class="description">
             [% post.content %]

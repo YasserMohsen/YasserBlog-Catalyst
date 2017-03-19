@@ -1,7 +1,7 @@
 <div class="ui middle aligned grid">
   <div class="column">
     <h2 class="ui teal image header">
-      <img src="assets/images/logo.png" class="image">
+      <img src="[% c.uri_for('/static/images/y.ico') %]" class="image">
       <div class="content">
         Register to my world
       </div>
