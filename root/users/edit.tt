@@ -1,0 +1,85 @@
+<h2>Edit your profile:</h2>
+
+<form class="ui large form error" method="POST" action="[% edit_user %]">
+    [% IF c.flash.status_msg -%]
+    <div class="ui tiny pink message">
+        <i class="close icon"></i>
+        [% c.flash.status_msg %]
+    </div>
+    [% END -%]
+
+    [% IF c.flash.error -%]
+    <div class="ui error pink message">
+      [% c.flash.error %]
+    </div>
+    [% END -%]
+
+    <div class="field">
+        <label>First Name: </label>
+        <input name="fname" value="[% user.fname %]" type="text">
+    </div>
+    <div class="field">
+        <label>Last Name: </label>
+        <input name="lname" value="[% user.lname %]" type="text">
+    </div>
+    <div class="field">
+        <label>Email: </label>
+        <label>[% user.email %]</label>
+    </div>
+    <div class="field">
+        <label>Username: </label>
+        <label>[% user.username %]</label>
+    </div>
+    <div class="inline fields">
+      <label>Gender: </label>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input name="gender" value="male" type="radio" [% IF user.gender == 'male' -%] checked [% END -%]>
+          <label> Male </label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input name="gender" value="female" type="radio" [% IF user.gender == 'female' -%] checked [% END -%]>
+          <label> Female </label>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+        <label>Old password: </label>
+        <input name="oldpassword" value="" type="password">
+    </div>
+    <div class="field">
+        <label>New password: </label>
+        <input name="newpassword" value="" type="password">
+    </div>
+    <div class="field">
+        <label>Confirm password: </label>
+        <input name="repassword" value="" type="password">
+    </div>
+    <input type="submit" name="submit" value="Save" class="ui fluid large teal submit button"/>
+</form>
+<script type="text/javascript">
+    $('.form').form({
+      fields: {
+        fname : {
+          identifier: 'fname',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'Please enter your First Name'
+            }
+          ]
+        },
+        lname : {
+          identifier: 'lname',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'Please enter your Last Name'
+            }
+          ]
+        }
+      }
+    });
+</script>
